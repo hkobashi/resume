@@ -4,6 +4,7 @@
 ### 使用技術
 - `言語`：Python、Go
 - `実行基盤`：Argo-Workflow
+- `マニフェスト管理`：FluxCD
 - `データ連携`：trocco（primeNumber）
 - `データウェアハウス`：Google BigQuery
 - `データソース`：MySQL、Salesforce
@@ -18,7 +19,8 @@
   Salesforce（営業・経営データ）からBigQueryへのデータ連携パイプラインを設計・開発した。  
   MySQLはPythonスクリプトで実装後、Goへリプレース。SalesforceはPythonスクリプトで実装。
 - `Argo-Workflowによる実行基盤の整備`  
-  ETLバッチの実行・スケジューリング基盤としてArgo-Workflowを整備した。
+  ETLバッチの実行・スケジューリング基盤としてArgo-Workflowを整備した。  
+  WorkflowのマニフェストはFluxCDで管理し、GitOpsによる変更履歴の追跡と再現性を確保した。
 - `データ品質改善`  
   運用フェーズでの重複データ・欠損データ問題に対し、以下の改善を実施した。  
   ① 増分ロード範囲をPrimary Key（単調増加）で明確化し、ロードの断面を一意に定義  
@@ -43,3 +45,7 @@
 - `多層的なデータ品質保証`  
   重複排除処理（`CREATE OR REPLACE TABLE AS SELECT DISTINCT`）と  
   データ件数突合スクリプトを組み合わせることで、重複の事後排除と欠損の自動検知を両立した。
+- `GitOpsツールの用途別使い分け`  
+  アプリ開発者がマニフェストをメンテナンスする場合はArgo-CD（GUIでのデプロイ状況可視化）、  
+  インフラ主管のマニフェストはFluxCD（CLIベースで軽量運用）と使い分けることで、  
+  担当者ごとの運用効率を最適化した。
