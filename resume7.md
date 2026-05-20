@@ -58,3 +58,11 @@
 - `VoC AI処理バッチの全体設計・実装`  
   Argo-WorkflowのWorkflowTemplate CRDの定義からOpenAI API連携のアプリコードまで一貫して担当し、  
   VoCデータをOpenSearchで検索可能な資産として整備した。
+- `セキュリティ対策`  
+  Istio Ambient Modeを使ってクラスター内のネットワーク通信を制御し、コンテナ乗っ取りのリスクを最小化した。  
+  またIstio ServiceEntryを使ってコンテナからk8sクラスター外への通信先を制限することで、  
+  万一コンテナが乗っ取られた場合の外部への情報漏洩リスクを低減した。
+- `Argo-CD Image Updaterによるデプロイフローの汎用化`  
+  当初はGitHub Actionsで`/bin/sed`を使いDeploymentのイメージタグを書き換えていたが、  
+  Argo-CD Image Updaterへ移行することでイメージタグ更新処理を汎用化し、  
+  サービスごとの個別対応を不要にした。
